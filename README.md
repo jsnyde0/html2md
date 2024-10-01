@@ -11,9 +11,7 @@ This Python script converts HTML content from a web page to Markdown format. It'
 
 ## Requirements
 
-- Python 3.6+
-- BeautifulSoup4
-- Requests
+- uv (Universal Versioning Tool)
 
 ## Installation
 
@@ -30,36 +28,51 @@ This Python script converts HTML content from a web page to Markdown format. It'
 
 ## Usage
 
-Basic usage:
-```
-uv run python html2md.py <URL> [-o <output_file>] [-s <CSS_selector>]
-```
+### One-time use (without installation)
 
-- `<URL>`: The URL of the web page to convert.
-- `-o <output_file>`: (Optional) The output Markdown file name. Default is `output.md`.
-- `-s <CSS_selector>`: (Optional) CSS selector to limit extraction scope.
-
-Example:
-```
-uv run python html2md.py https://example.com/page/ -o example.md -s main-content
+```bash
+uvx html2md https://example.com -s main-content -o output.md
 ```
 
-This command will convert the HTML content from `https://example.com/page/` and save it to `example.md`, only extracting content from the element with the CSS class `main-content`.
+### Install the tool
 
-This will convert the content within the element with class "main-content" from https://example.com/page/ and save it as example.md.
-
-## Alias for Easy Use
-
-For easier use, you can create an alias in your shell configuration file (e.g., .bashrc, .zshrc):
-
-```
-alias html2md="python /path/to/html2md.py"
+```bash
+uv tool install html2md
 ```
 
-Then you can use it like this:
+After installation, you can use the tool directly:
 
+```bash
+html2md https://example.com -s main-content -o output.md
 ```
-html2md https://example.com/page/ -s content-class
+
+### Upgrade the tool
+
+```bash
+uv tool upgrade html2md
+```
+
+## Options
+
+- `url`: The web page URL to convert (required)
+- `-o`, `--output`: Output filename (default: output.md)
+- `-s`, `--selector`: CSS selector to limit extraction scope
+
+## Examples
+
+Convert an entire page:
+```bash
+html2md https://example.com
+```
+
+Extract content from a specific class:
+```bash
+html2md https://example.com -s main-content
+```
+
+Specify an output file:
+```bash
+html2md https://example.com -o my_output.md
 ```
 
 ## Limitations

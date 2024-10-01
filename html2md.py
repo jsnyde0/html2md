@@ -30,15 +30,9 @@ def extract_block_code(code_element):
     return code_element.get_text(strip=True)
 
 def extract_text(url, selector=None):
-    response = requests.get(url)
-    print(f"Status Code: {response.status_code}")
-    print(f"Final URL after potential redirects: {response.url}")
-    
+    response = requests.get(url)    
     soup = BeautifulSoup(response.content, 'html.parser')
-    
-    print(f"Title of the page: {soup.title.string if soup.title else 'No title found'}")
-    print(f"Number of <div> elements: {len(soup.find_all('div'))}")
-    
+        
     if selector:
         print(f"Searching for selector: {selector}")
         # Modified selector search
