@@ -17,8 +17,8 @@ This Python script converts HTML content from a web page to Markdown format. It'
 
 1. Clone this repository:
    ```
-   git clone https://github.com/yourusername/html-to-markdown.git
-   cd html-to-markdown
+   git clone https://github.com/jsnyde0/html2md
+   cd html2md
    ```
 
 2. Install `uv` if you don't have it:
@@ -33,6 +33,11 @@ This Python script converts HTML content from a web page to Markdown format. It'
 ```bash
 uvx html2md https://example.com -s main-content -o output.md
 ```
+If no output file is specified, the converted Markdown will be copied to your clipboard:
+
+```bash
+uvx html2md https://example.com -s main-content
+```
 
 ### Install the tool
 
@@ -43,7 +48,7 @@ uv tool install html2md
 After installation, you can use the tool directly:
 
 ```bash
-html2md https://example.com -s main-content -o output.md
+html2md https://example.com -s main-content
 ```
 
 ### Upgrade the tool
@@ -65,7 +70,7 @@ Convert an entire page:
 html2md https://example.com
 ```
 
-Extract content from a specific class:
+Extract content from all the children elements of a specific class:
 ```bash
 html2md https://example.com -s main-content
 ```

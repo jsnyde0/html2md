@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import argparse
+import pyperclip
 
 def process_inline_elements(element):
     result = ""
@@ -69,17 +70,20 @@ def extract_text(url, selector=None):
 def main():
     parser = argparse.ArgumentParser(description="Convert HTML to Markdown")
     parser.add_argument("url", help="URL of the HTML page to convert")
-    parser.add_argument("-o", "--output", default="output.md", help="Output filename (default: output.md)")
+    parser.add_argument("-o", "--output", help="Output filename (if not specified, output will be copied to clipboard)")
     parser.add_argument("-s", "--selector", help="CSS selector to limit extraction scope")
     args = parser.parse_args()
 
     try:
         markdown_text = extract_text(args.url, args.selector)
 
-        with open(args.output, "w", encoding="utf-8") as f:
-            f.write(markdown_text)
-
-        print(f"Conversion complete. Markdown saved to {args.output}")
+        if args.output:
+            with open(args.output, "w", encoding="utf-8") as f:
+                f.write(markdown_text)
+            print(f"Conversion complete. Markdown saved to {args.output}")
+        else:
+            pyperclip.copy(markdown_text)
+            print("Conversion complete. Markdown copied to clipboard.")
     except ValueError as e:
         print(f"Error: {e}")
     except Exception as e:
