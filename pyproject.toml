@@ -1,9 +1,10 @@
 [project]
 name = "html2md"
 version = "0.1.0"
-description = "Add your description here"
+description = "Convert HTML to Markdown"
 readme = "README.md"
 requires-python = ">=3.12"
+license = {text = "MIT"}
 dependencies = [
     "argparse>=1.4.0",
     "beautifulsoup4>=4.12.3",
