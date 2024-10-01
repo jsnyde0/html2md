@@ -29,13 +29,33 @@ def process_list(list_tag, indent=0):
 def extract_block_code(code_element):
     return code_element.get_text(strip=True)
 
-def extract_text(url):
+def extract_text(url, selector=None):
     response = requests.get(url)
+    print(f"Status Code: {response.status_code}")
+    print(f"Final URL after potential redirects: {response.url}")
+    
     soup = BeautifulSoup(response.content, 'html.parser')
+    
+    print(f"Title of the page: {soup.title.string if soup.title else 'No title found'}")
+    print(f"Number of <div> elements: {len(soup.find_all('div'))}")
+    
+    if selector:
+        print(f"Searching for selector: {selector}")
+        # Modified selector search
+        selected_element = soup.find(class_=selector)
+        if not selected_element:
+            print("Selector not found. Here are some available classes:")
+            for tag in soup.find_all(class_=True):
+                print(f"- {tag.name}: {tag['class']}")
+            raise ValueError(f"No element found matching selector: {selector}")
+        root = selected_element
+        print(f"Found element with selector: {root.name}, classes: {root.get('class')}")
+    else:
+        root = soup
 
     text = ""
 
-    for tag in soup.find_all(['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'pre', 'ul', 'ol']):
+    for tag in root.find_all(['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'pre', 'ul', 'ol']):
         if tag.name.startswith('h'):
             text += f"{'#' * int(tag.name[1])} {tag.get_text(strip=True)}\n\n"
         elif tag.name == 'p':
@@ -56,14 +76,20 @@ def main():
     parser = argparse.ArgumentParser(description="Convert HTML to Markdown")
     parser.add_argument("url", help="URL of the HTML page to convert")
     parser.add_argument("-o", "--output", default="output.md", help="Output filename (default: output.md)")
+    parser.add_argument("-s", "--selector", help="CSS selector to limit extraction scope")
     args = parser.parse_args()
 
-    markdown_text = extract_text(args.url)
+    try:
+        markdown_text = extract_text(args.url, args.selector)
 
-    with open(args.output, "w", encoding="utf-8") as f:
-        f.write(markdown_text)
+        with open(args.output, "w", encoding="utf-8") as f:
+            f.write(markdown_text)
 
-    print(f"Conversion complete. Markdown saved to {args.output}")
+        print(f"Conversion complete. Markdown saved to {args.output}")
+    except ValueError as e:
+        print(f"Error: {e}")
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
 
 if __name__ == "__main__":
     main()
