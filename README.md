@@ -31,30 +31,25 @@ This Python script converts HTML content from a web page to Markdown format. It'
 ### One-time use (without installation)
 
 ```bash
-uvx html2md https://example.com -s main-content -o output.md
+uv run html2md.py https://example.com -s main-content -o output.md
 ```
 If no output file is specified, the converted Markdown will be copied to your clipboard:
 
 ```bash
-uvx html2md https://example.com -s main-content
+uv run html2md.py https://example.com -s main-content
 ```
 
 ### Install the tool
 
 ```bash
-uv tool install html2md
+cd html2md # make sure you're in the html2md directory
+uv tool install .
 ```
 
 After installation, you can use the tool directly:
 
 ```bash
 html2md https://example.com -s main-content
-```
-
-### Upgrade the tool
-
-```bash
-uv tool upgrade html2md
 ```
 
 ## Options
